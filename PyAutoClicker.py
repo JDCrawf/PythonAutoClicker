@@ -26,6 +26,12 @@ class ClickMouse(threading.Thread):
 	def stop_clicking(self):
 		self.running = False
 
+	def slow_down(self):
+		self.delay = min(self.delay + 1, max_delay)
+
+	def speed_up(self):
+		self.delay = max(self.delay - 1, min_delay)
+
 	def exit(self):
 		self.stop_clicking()
 		self.program_run = False
@@ -33,8 +39,8 @@ class ClickMouse(threading.Thread):
 	def run(self):
 		while self.program_run:
 			while self.running:
-				mouse.click(self.button)
-				#print("click")
+				#mouse.click(self.button)
+				print("click")
 				sleep(self.delay)
 			sleep(1)
 
@@ -49,11 +55,9 @@ def on_press(key):
 		else:
 			thread.start_clicking()
 	elif key == speed_up_key:
-		thread.delay = max(thread.delay - 1, min_delay)
-		#print("delay: " + str(thread.delay))
+		thread.speed_up()
 	elif key == slow_down_key:
-		thread.delay = min(thread.delay + 1, max_delay)
-		#print("delay: " + str(thread.delay))
+		thread.slow_down()
 	elif key == exit_key:
 		thread.exit()
 		listener.stop()
