@@ -4,7 +4,7 @@ from pynput.mouse    import Button, Controller
 from pynput.keyboard import Listener, KeyCode
 
 delay = 10 # in seconds
-old_delay = 0
+old_delay = -1
 max_delay = 10
 min_delay = 1
 button = Button.left
@@ -17,7 +17,7 @@ class ClickMouse(threading.Thread):
 	def __init__(self, delay, button):
 		super(ClickMouse, self).__init__()
 		self.delay       = delay
-		self.old_delay	 = 0
+		self.old_delay	 = old_delay
 		self.button      = button
 		self.running     = False
 		self.program_run = True
@@ -44,7 +44,7 @@ class ClickMouse(threading.Thread):
 				mouse.click(self.button)
 				#print("click")
 				if (self.delay != self.old_delay):
-					print("delay: " + str(self.delay))
+					print("delay: " + str(self.delay) + " second(s)")
 					self.old_delay = self.delay
 				sleep(self.delay)
 			sleep(.1)
